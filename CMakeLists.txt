@@ -6,6 +6,11 @@ project(ardupilot_sitl_gazebo)
 #######################
 ## Find Dependencies ##
 #######################
+
+# Add search directory for CMake on OS X
+list(APPEND CMAKE_MODULE_PATH /usr/local/share/cmake/Modules)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 set(Boost_INCLUDE_DIRS /usr/include/boost)
 set(Boost_LIBRARY_DIRS /usr/include/lib)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -17,8 +22,7 @@ find_package(PkgConfig REQUIRED)
 find_program(px4 REQUIRED)
 find_package(PythonInterp REQUIRED)
 find_package(OpenCV REQUIRED)
-
-#fix this: find_package(TinyXML REQUIRED)
+find_package(TinyXML REQUIRED)
 
 
 pkg_check_modules(OGRE OGRE)
@@ -104,7 +108,7 @@ include_directories(
   	${OGRE_INCLUDE_DIRS}/Paging		# Workaround for "fatal error: OgrePagedWorldSection.h: No such file or directory"
   	${OpenCV_INCLUDE_DIRS}
   	${OpticalFlow_INCLUDE_DIRS}
-  	#${TinyXML_INCLUDE_DIRS}
+  	${TinyXML_INCLUDE_DIRS}
         )
 
 link_libraries(
