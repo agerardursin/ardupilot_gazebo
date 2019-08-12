@@ -17,7 +17,9 @@ find_package(PkgConfig REQUIRED)
 find_program(px4 REQUIRED)
 find_package(PythonInterp REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(TinyXML REQUIRED)
+
+#fix this: find_package(TinyXML REQUIRED)
+
 
 pkg_check_modules(OGRE OGRE)
 
@@ -102,7 +104,7 @@ include_directories(
   	${OGRE_INCLUDE_DIRS}/Paging		# Workaround for "fatal error: OgrePagedWorldSection.h: No such file or directory"
   	${OpenCV_INCLUDE_DIRS}
   	${OpticalFlow_INCLUDE_DIRS}
-  	${TinyXML_INCLUDE_DIRS}
+  	#${TinyXML_INCLUDE_DIRS}
         )
 
 link_libraries(
