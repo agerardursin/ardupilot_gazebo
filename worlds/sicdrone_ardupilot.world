@@ -121,7 +121,7 @@ LOITER> mode LAND
       </link>
     </model>
 
-    <model name="sicdrone_h480">
+    <model name="sicdrone">
       <pose> 0 0 0 0 0 0 </pose>
       <include>
         <uri>model://sicdrone_ardupilot</uri>
