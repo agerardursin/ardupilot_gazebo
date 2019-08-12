@@ -45,6 +45,15 @@ link_directories(
 set (plugins_single_header
         ArduPilotPlugin
         ArduCopterIRLockPlugin
+	gazebo_geotagged_images_plugin
+	gazebo_gps_plugin
+	gazebo_lidar_plugin
+	gazebo_gimbal_controller_plugin
+	gazebo_imu_plugin
+	gazebo_mavlink_interface
+	gazebo_multirotor_base_plugin
+	gazebo_magnetometer_plugin
+	gazebo_barometer_plugin
 				# ArduCopterPlugin
         # GimbalSmall2dPlugin
 	# WindPlugin
@@ -55,6 +64,33 @@ target_link_libraries(ArduCopterIRLockPlugin ${GAZEBO_LIBRARIES})
 
 add_library(ArduPilotPlugin SHARED src/ArduPilotPlugin.cc)
 target_link_libraries(ArduPilotPlugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_geotagged_images_plugin SHARED src/gazebo_geotagged_images_plugin.cpp)
+target_link_libraries(gazebo_geotagged_images_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_gps_plugin SHARED src/gazebo_gps_plugin.cpp)
+target_link_libraries(gazebo_gps_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_lidar_plugin SHARED src/gazebo_lidar_plugin.cpp)
+target_link_libraries(gazebo_lidar_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_gimbal_controller_plugin SHARED src/gazebo_gimbal_controller_plugin.cpp)
+target_link_libraries(gazebo_gimbal_controller_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_imu_plugin SHARED src/gazebo_imu_plugin.cpp)
+target_link_libraries(gazebo_imu_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_mavlink_interface SHARED src/gazebo_mavlink_interface.cpp)
+target_link_libraries(gazebo_mavlink_interface ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_multirotor_base_plugin SHARED src/gazebo_multirotor_base_plugin.cpp)
+target_link_libraries(gazebo_multirotor_base_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_magnetometer_plugin SHARED src/gazebo_magnetometer_plugin.cpp src/geo_mag_declination.cpp)
+target_link_libraries(gazebo_magnetometer_plugin ${GAZEBO_LIBRARIES})
+
+add_library(gazebo_barometer_plugin SHARED src/gazebo_barometer_plugin.cpp)
+target_link_libraries(gazebo_barometer_plugin ${GAZEBO_LIBRARIES})
 
 # add_library(ArduCopterPlugin SHARED src/ArduCopterPlugin.cc)
 # target_link_libraries(ArduCopterPlugin ${GAZEBO_LIBRARIES})
@@ -67,4 +103,13 @@ endif()
 
 install(TARGETS ArduCopterIRLockPlugin DESTINATION ${GAZEBO_PLUGIN_PATH})
 install(TARGETS ArduPilotPlugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_geotagged_images_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_gps_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_lidar_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_gimbal_controller_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_imu_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_mavlink_interface DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_multirotor_base_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_magnetometer_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
+install(TARGETS gazebo_barometer_plugin DESTINATION ${GAZEBO_PLUGIN_PATH})
 #install(TARGETS ArduCopterPlugin DESTINATION ${GAZEBO_PLUGIN_PATH})
