@@ -1,14 +1,6 @@
 <sdf version='1.5'>
   <model name='sicdrone'>
 
-  TODO: 
-  1. Find the correct values for the PID of the servos by comparing to tiltrotors already made
-  2. Analyze coefficients to see if anything needs to be ammended/ changed to get the servos working
-  3. Figure out the difference between a control channel and a channel in controls, specifically how the various mixers interpret them
-
-
-
-
     <!-- SIC Drone body -->
     <pose>0 0 0.26 0 0 3.1415927</pose>
     <link name='base_link'>
