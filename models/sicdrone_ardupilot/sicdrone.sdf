@@ -1,5 +1,6 @@
 <sdf version="1.5">
    <model name="sicdrone">
+
       <!-- SIC Drone body -->
       <pose>0 0 0.26 0 0 3.1415927</pose>
       <link name="base_link">
@@ -284,6 +285,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <link name="cgo3_mount_link">
          <inertial>
             <!-- place holder -->
@@ -314,6 +316,7 @@
             </material>
          </visual>
       </link>
+
       <joint name="cgo3_mount_joint" type="revolute">
          <child>cgo3_mount_link</child>
          <parent>base_link</parent>
@@ -337,6 +340,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="cgo3_vertical_arm_link">
          <inertial>
             <!-- place holder -->
@@ -367,6 +371,7 @@
             </material>
          </visual>
       </link>
+
       <joint name="cgo3_vertical_arm_joint" type="revolute">
          <child>cgo3_vertical_arm_link</child>
          <parent>cgo3_mount_link</parent>
@@ -398,6 +403,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="cgo3_horizontal_arm_link">
          <inertial>
             <!-- place holder -->
@@ -428,6 +434,7 @@
             </material>
          </visual>
       </link>
+
       <joint name="cgo3_horizontal_arm_joint" type="revolute">
          <child>cgo3_horizontal_arm_link</child>
          <parent>cgo3_vertical_arm_link</parent>
@@ -459,6 +466,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="cgo3_camera_link">
          <inertial>
             <!-- place holder -->
@@ -512,6 +520,7 @@
                </script>
             </material>
          </visual>
+         <!-- Sensors -->
          <sensor name="camera_imu" type="imu">
             <always_on>1</always_on>
          </sensor>
@@ -557,13 +566,14 @@
         </plugin>
         -->
             <plugin name="GeotaggedImagesPlugin" filename="libgazebo_geotagged_images_plugin.so">
-               <robotNamespace />
+               <robotNamespace>sicdrone</robotNamespace>
                <interval>1</interval>
                <width>3840</width>
                <height>2160</height>
             </plugin>
          </sensor>
       </link>
+
       <joint name="cgo3_camera_joint" type="revolute">
          <child>cgo3_camera_link</child>
          <parent>cgo3_horizontal_arm_link</parent>
@@ -592,6 +602,7 @@
             </ode>
          </physics>
       </joint>
+
       <!-- rotor_left_tilt_arm becomes servo_0 -->
       <link name="servo_0">
          <pose>-0.015 -0.46 0.03 0 -0 0</pose>
@@ -626,6 +637,7 @@
             </material>
          </visual>
       </link>
+
       <joint name="servo_0_joint" type="revolute">
          <child>servo_0</child>
          <parent>base_link</parent>
@@ -639,15 +651,13 @@
                <velocity>-1</velocity>
             </limit>
             <dynamics>
-               <damping>1.000</damping>
+               <spring_reference>0</spring_reference>
+               <spring_stiffness>0</spring_stiffness>
             </dynamics>
+            <use_parent_model_frame>1</use_parent_model_frame>
          </axis>
-         <physics>
-            <ode>
-               <implicit_spring_damper>1</implicit_spring_damper>
-            </ode>
-         </physics>
       </joint>
+
       <!-- rotor_right_tilt_arm becomes servo_1 -->
       <link name="servo_1">
          <pose>0.01 0.47 0.03 0 -0 0</pose>
@@ -682,6 +692,7 @@
             </material>
          </visual>
       </link>
+
       <joint name="servo_1_joint" type="revolute">
          <child>servo_1</child>
          <parent>base_link</parent>
@@ -695,15 +706,61 @@
                <velocity>-1</velocity>
             </limit>
             <dynamics>
-               <damping>1.000</damping>
+               <spring_reference>0</spring_reference>
+               <spring_stiffness>0</spring_stiffness>
             </dynamics>
+            <use_parent_model_frame>1</use_parent_model_frame>
          </axis>
-         <physics>
-            <ode>
-               <implicit_spring_damper>1</implicit_spring_damper>
-            </ode>
-         </physics>
       </joint>
+
+      <sensor name="gps_sensor" type="gps">
+        <pose>0 0 0  0 0 0</pose>
+        <update_rate>10.0</update_rate>
+        <always_on>true</always_on>
+        <gps>
+          <position_sensing>
+            <horizontal>
+              <noise type="gaussian_quantized">
+                <mean>0</mean>
+                <stddev>1</stddev>
+                <bias_mean>3</bias_mean>
+                <bias_stddev>1</bias_stddev>
+                <precision>0.5</precision>
+              </noise>
+            </horizontal>
+            <vertical>
+              <noise type="gaussian_quantized">
+                <mean>0</mean>
+                <stddev>1</stddev>
+                <bias_mean>3</bias_mean>
+                <bias_stddev>1</bias_stddev>
+                <precision>1.0</precision>
+              </noise>
+            </vertical>
+          </position_sensing>
+          <velocity_sensing>
+            <horizontal>
+              <noise type="gaussian_quantized">
+                <mean>0</mean>
+                <stddev>0.1</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.1</bias_stddev>
+                <precision>0.1</precision>
+              </noise>
+            </horizontal>
+            <vertical>
+              <noise type="gaussian_quantized">
+                <mean>0</mean>
+                <stddev>0.2</stddev>
+                <bias_mean>0.2</bias_mean>
+                <bias_stddev>0.2</bias_stddev>
+                <precision>0.2</precision>
+              </noise>
+            </vertical>
+          </velocity_sensing>
+        </gps>
+      </sensor>
+
       <link name="sicdrone/imu_link">
          <pose>0 0 0 0 0 3.1415927</pose>
          <inertial>
@@ -718,7 +775,13 @@
                <izz>1e-05</izz>
             </inertia>
          </inertial>
+         <sensor name="imu_sensor" type="imu">
+            <pose>0 0 0 3.141593 0 0</pose>
+            <always_on>1</always_on>
+            <update_rate>1000.0</update_rate>
+         </sensor>
       </link>
+
       <joint name="sicdrone/imu_joint" type="revolute">
          <child>sicdrone/imu_link</child>
          <parent>base_link</parent>
@@ -737,6 +800,7 @@
             <use_parent_model_frame>1</use_parent_model_frame>
          </axis>
       </joint>
+
       <link name="rotor_3">
          <pose>0.334 0.1907 -0.017 0 -0 0</pose>
          <inertial>
@@ -787,6 +851,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_3_joint" type="revolute">
          <child>rotor_3</child>
          <parent>base_link</parent>
@@ -809,6 +874,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="rotor_4">
          <pose>-0.340396 0.212762 -0.017 0 -0 2.0944</pose>
          <inertial>
@@ -859,6 +925,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_4_joint" type="revolute">
          <child>rotor_4</child>
          <parent>base_link</parent>
@@ -881,6 +948,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="rotor_0">
          <pose>0.011121 0.432705 -0.017 0 -0 0</pose>
          <inertial>
@@ -931,6 +999,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_0_joint" type="revolute">
          <child>rotor_0</child>
          <parent>servo_1</parent>
@@ -953,6 +1022,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="rotor_5">
          <pose>0.319 -0.211 -0.017 0 -0 -2.0944</pose>
          <inertial>
@@ -1003,6 +1073,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_5_joint" type="revolute">
          <child>rotor_5</child>
          <parent>base_link</parent>
@@ -1025,6 +1096,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="rotor_1">
          <pose>-0.018879 -0.418705 -0.017 -0 -0 -2.0944</pose>
          <inertial>
@@ -1075,6 +1147,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_1_joint" type="revolute">
          <child>rotor_1</child>
          <parent>servo_0</parent>
@@ -1097,6 +1170,7 @@
             </ode>
          </physics>
       </joint>
+
       <link name="rotor_2">
          <pose>-0.355 -0.175 -0.017 0 -0 2.0944</pose>
          <inertial>
@@ -1147,6 +1221,7 @@
          <velocity_decay />
          <self_collide>0</self_collide>
       </link>
+
       <joint name="rotor_2_joint" type="revolute">
          <child>rotor_2</child>
          <parent>base_link</parent>
@@ -1169,50 +1244,7 @@
             </ode>
          </physics>
       </joint>
-      <!-- plugins -->
-      <plugin name="rosbag" filename="libgazebo_multirotor_base_plugin.so">
-         <robotNamespace />
-         <linkName>base_link</linkName>
-         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-      <plugin name="gps_plugin" filename="libgazebo_gps_plugin.so">
-         <robotNamespace />
-         <gpsNoise>true</gpsNoise>
-      </plugin>
-      <plugin name="magnetometer_plugin" filename="libgazebo_magnetometer_plugin.so">
-         <robotNamespace />
-         <pubRate>20</pubRate>
-         <noiseDensity>0.0004</noiseDensity>
-         <randomWalk>6.4e-06</randomWalk>
-         <biasCorrelationTime>600</biasCorrelationTime>
-         <magTopic>/mag</magTopic>
-      </plugin>
-      <plugin name="barometer_plugin" filename="libgazebo_barometer_plugin.so">
-         <robotNamespace />
-         <pubRate>10</pubRate>
-         <baroTopic>/baro</baroTopic>
-      </plugin>
-      <plugin name="mavlink_interface" filename="libgazebo_mavlink_interface.so">
-         <robotNamespace />
-         <imuSubTopic>/imu</imuSubTopic>
-         <gpsSubTopic>/gps</gpsSubTopic>
-         <magSubTopic>/mag</magSubTopic>
-         <baroSubTopic>/baro</baroSubTopic>
-         <mavlink_addr>INADDR_ANY</mavlink_addr>
-         <mavlink_udp_port>14560</mavlink_udp_port>
-         <serialEnabled>false</serialEnabled>
-         <serialDevice>/dev/ttyACM0</serialDevice>
-         <baudRate>921600</baudRate>
-         <qgc_addr>INADDR_ANY</qgc_addr>
-         <qgc_udp_port>14550</qgc_udp_port>
-         <sdk_addr>INADDR_ANY</sdk_addr>
-         <sdk_udp_port>14540</sdk_udp_port>
-         <hil_mode>false</hil_mode>
-         <hil_state_level>false</hil_state_level>
-         <enable_lockstep>true</enable_lockstep>
-         <use_tcp>true</use_tcp>
-         <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
-      </plugin>
+
       <!-- plugins -->
       <plugin name="rotor_0_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
@@ -1230,6 +1262,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_0</link_name>
       </plugin>
+
       <plugin name="rotor_0_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1246,6 +1279,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_0</link_name>
       </plugin>
+
       <plugin name="rotor_0_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1262,6 +1296,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_0</link_name>
       </plugin>
+
       <plugin name="rotor_1_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1278,6 +1313,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_1</link_name>
       </plugin>
+
       <plugin name="rotor_1_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1294,6 +1330,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_1</link_name>
       </plugin>
+
       <plugin name="rotor_1_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1310,6 +1347,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_1</link_name>
       </plugin>
+
       <plugin name="rotor_2_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1326,6 +1364,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_2</link_name>
       </plugin>
+
       <plugin name="rotor_2_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1342,6 +1381,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_2</link_name>
       </plugin>
+
       <plugin name="rotor_2_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1358,6 +1398,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_2</link_name>
       </plugin>
+
       <plugin name="rotor_3_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1374,6 +1415,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_3</link_name>
       </plugin>
+
       <plugin name="rotor_3_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1390,6 +1432,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_3</link_name>
       </plugin>
+
       <plugin name="rotor_3_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1406,6 +1449,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_3</link_name>
       </plugin>
+
       <plugin name="rotor_4_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1422,6 +1466,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_4</link_name>
       </plugin>
+
       <plugin name="rotor_4_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1438,6 +1483,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_4</link_name>
       </plugin>
+
       <plugin name="rotor_4_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1454,6 +1500,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_4</link_name>
       </plugin>
+
       <plugin name="rotor_5_blade_1" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1470,6 +1517,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_5</link_name>
       </plugin>
+
       <plugin name="rotor_5_blade_2" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1486,6 +1534,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_5</link_name>
       </plugin>
+
       <plugin name="rotor_5_blade_3" filename="libLiftDragPlugin.so">
          <a0>0.3</a0>
          <alpha_stall>1.4</alpha_stall>
@@ -1502,6 +1551,7 @@
          <upward>0 0 1</upward>
          <link_name>rotor_5</link_name>
       </plugin>
+
       <plugin name="ArduPlane_Plugin" filename="libArduPilotPlugin.so">
          <fdm_addr>127.0.0.1</fdm_addr>
          <fdm_port_in>9002</fdm_port_in>
@@ -1637,7 +1687,8 @@
             <multiplier>-1.5</multiplier>
             <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
          </control>
-         <control channel="gimbal_roll">
+         <control channel="8">
+            <type>POSITION</type>
             <input_index>8</input_index>
             <input_offset>0</input_offset>
             <input_scaling>-3.1415</input_scaling>
@@ -1647,7 +1698,8 @@
             <gztopic>/gimbal_roll_cmd</gztopic>
             <joint_name>sicdrone::cgo3_camera_joint</joint_name>
          </control>
-         <control channel="gimbal_pitch">
+         <control channel="9">
+            <type>POSITION</type>
             <input_index>9</input_index>
             <input_offset>0</input_offset>
             <input_scaling>3.1415</input_scaling>
@@ -1657,7 +1709,8 @@
             <gztopic>/gimbal_pitch_cmd</gztopic>
             <joint_name>sicdrone::cgo3_camera_joint</joint_name>
          </control>
-         <control channel="gimbal_yaw">
+         <control channel="10">
+            <type>POSITION</type>
             <input_index>10</input_index>
             <input_offset>0</input_offset>
             <input_scaling>-3.1415</input_scaling>
@@ -1668,20 +1721,8 @@
             <joint_name>sicdrone::cgo3_vertical_arm_joint</joint_name>
          </control>
       </plugin>
+
       <static>0</static>
-      <plugin name="rotors_gazebo_imu_plugin" filename="libgazebo_imu_plugin.so">
-         <robotNamespace />
-         <linkName>sicdrone/imu_link</linkName>
-         <imuTopic>/imu</imuTopic>
-         <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
-         <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
-         <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
-         <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
-         <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
-         <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
-         <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
-         <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
-      </plugin>
       <plugin name="gimbal_controller" filename="libgazebo_gimbal_controller_plugin.so">
          <joint_yaw>sicdrone::cgo3_vertical_arm_joint</joint_yaw>
          <joint_roll>sicdrone::cgo3_horizontal_arm_joint</joint_roll>

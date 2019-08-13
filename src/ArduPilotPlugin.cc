@@ -763,7 +763,7 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
       return;
     }
   }
-/* NOT MERGED IN MASTER YET
+
     // Get GPS
     std::string gpsName;
   getSdfParam<std::string>(_sdf, "gpsName", gpsName, "gps_sensor");
@@ -825,7 +825,7 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
              << "  found "  << " [" << gpsName << "].\n";
     }
   }
-
+  /*
   // Get Rangefinder
   // TODO add sonar
     std::string rangefinderName;
