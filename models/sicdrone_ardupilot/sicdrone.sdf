@@ -283,6 +283,53 @@
          <gravity>1</gravity>
          <velocity_decay />
          <self_collide>0</self_collide>
+         <sensor name="gps_sensor" type="gps">
+            <pose>0 0 0 0 0 0</pose>
+            <always_on>1</always_on>
+            <update_rate>10.0</update_rate>
+            <gps>
+               <position_sensing>
+                  <horizontal>
+                     <noise type="gaussian_quantized">
+                        <mean>0</mean>
+                        <stddev>1</stddev>
+                        <bias_mean>3</bias_mean>
+                        <bias_stddev>1</bias_stddev>
+                        <precision>0.5</precision>
+                     </noise>
+                  </horizontal>
+                  <vertical>
+                     <noise type="gaussian_quantized">
+                        <mean>0</mean>
+                        <stddev>1</stddev>
+                        <bias_mean>3</bias_mean>
+                        <bias_stddev>1</bias_stddev>
+                        <precision>1.0</precision>
+                     </noise>
+                  </vertical>
+               </position_sensing>
+               <velocity_sensing>
+                  <horizontal>
+                     <noise type="gaussian_quantized">
+                        <mean>0</mean>
+                        <stddev>0.1</stddev>
+                        <bias_mean>0.1</bias_mean>
+                        <bias_stddev>0.1</bias_stddev>
+                        <precision>0.1</precision>
+                     </noise>
+                  </horizontal>
+                  <vertical>
+                     <noise type="gaussian_quantized">
+                        <mean>0</mean>
+                        <stddev>0.2</stddev>
+                        <bias_mean>0.2</bias_mean>
+                        <bias_stddev>0.2</bias_stddev>
+                        <precision>0.2</precision>
+                     </noise>
+                  </vertical>
+               </velocity_sensing>
+            </gps>
+         </sensor>
       </link>
       <link name="cgo3_mount_link">
          <inertial>
@@ -699,53 +746,6 @@
             <use_parent_model_frame>1</use_parent_model_frame>
          </axis>
       </joint>
-      <sensor name="gps_sensor" type="gps">
-         <pose>0 0 0 0 0 0</pose>
-         <update_rate>10.0</update_rate>
-         <always_on>true</always_on>
-         <gps>
-            <position_sensing>
-               <horizontal>
-                  <noise type="gaussian_quantized">
-                     <mean>0</mean>
-                     <stddev>1</stddev>
-                     <bias_mean>3</bias_mean>
-                     <bias_stddev>1</bias_stddev>
-                     <precision>0.5</precision>
-                  </noise>
-               </horizontal>
-               <vertical>
-                  <noise type="gaussian_quantized">
-                     <mean>0</mean>
-                     <stddev>1</stddev>
-                     <bias_mean>3</bias_mean>
-                     <bias_stddev>1</bias_stddev>
-                     <precision>1.0</precision>
-                  </noise>
-               </vertical>
-            </position_sensing>
-            <velocity_sensing>
-               <horizontal>
-                  <noise type="gaussian_quantized">
-                     <mean>0</mean>
-                     <stddev>0.1</stddev>
-                     <bias_mean>0.1</bias_mean>
-                     <bias_stddev>0.1</bias_stddev>
-                     <precision>0.1</precision>
-                  </noise>
-               </horizontal>
-               <vertical>
-                  <noise type="gaussian_quantized">
-                     <mean>0</mean>
-                     <stddev>0.2</stddev>
-                     <bias_mean>0.2</bias_mean>
-                     <bias_stddev>0.2</bias_stddev>
-                     <precision>0.2</precision>
-                  </noise>
-               </vertical>
-            </velocity_sensing>
-         </gps>
-      </sensor>
       <link name="imu_link">
          <pose>0 0 0 0 0 3.1415927</pose>
          <inertial>
@@ -1516,6 +1516,7 @@
          <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 3.141593</modelXYZToAirplaneXForwardZDown>
          <gazeboXYZToNED>0 0 0 3.141593 0 3.141593</gazeboXYZToNED>
          <imuName>sicdrone_ardupilot::imu_link::imu_sensor</imuName>
+         <gpsName>sicdrone_ardupilot::base_link::gps_sensor</gpsName>
          <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
          <!--
           incoming control command [0, 1]
