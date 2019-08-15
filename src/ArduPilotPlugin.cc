@@ -142,7 +142,7 @@ struct fdmPacket
 
   /// \brief Model position in NED frame
   double positionXYZ[3];
-/*  NOT MERGED IN MASTER YET
+//  NOT MERGED IN MASTER YET
   /// \brief Model latitude in WGS84 system
   double latitude = 0.0;
 
@@ -163,7 +163,7 @@ struct fdmPacket
 
   /// \brief Model rangefinder value. Default to -1 to use sitl rangefinder.
   double rangefinder = -1.0;
-*/
+
 };
 
 /// \brief Control class
@@ -1312,7 +1312,7 @@ void ArduPilotPlugin::SendState() const
   pkt.velocityXYZ[0] = velNEDFrame.X();
   pkt.velocityXYZ[1] = velNEDFrame.Y();
   pkt.velocityXYZ[2] = velNEDFrame.Z();
-/* NOT MERGED IN MASTER YET
+// NOT MERGED IN MASTER YET
   if (!this->dataPtr->gpsSensor)
     {
 
@@ -1335,6 +1335,6 @@ void ArduPilotPlugin::SendState() const
 
   // airspeed :     wind = Vector3(environment.wind.x, environment.wind.y, environment.wind.z)
    // pkt.airspeed = (pkt.velocity - wind).length()
-*/
+
   this->dataPtr->socket_out.Send(&pkt, sizeof(pkt));
 }
